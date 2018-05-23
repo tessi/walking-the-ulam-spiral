@@ -1,0 +1,65 @@
+:root {
+  --box-size: 5px;
+}
+
+div {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+}
+
+#container {
+  overflow-x: scroll;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box {
+  width: var(--box-size);
+  min-width: var(--box-size);
+  height: var(--box-size);
+  min-height: var(--box-size);
+  display: inline-block;
+}
+
+.box--prime {
+  background-color: black;
+}
+
+.box--no-prime {
+  background-color: red;
+}
+
+#popup {
+  background-color: #ccccccdd;
+  border-radius: 10px;
+  position: absolute;
+  padding: 4px;
+  font-size: smaller;
+  height: 50px;
+  overflow-y: scroll;
+}
+
+#popup ul {
+  padding: 0;
+  margin: 0;
+  font-size: smaller;
+  list-style: none;
+}
+
+.description {
+  width: 80%;
+  min-width: 600px;
+  margin: 0 auto;
+}
+
+.exampleBox {
+  padding: 4px;
+  margin: 4px;
+  background-color: #ccc;
+  display: inline-block;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Walking the Ulan Spiral</title>
+    <link rel="stylesheet" type="text/css" href="ulan.css">
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <div class="description">
+      <h1>Walking the <a href="https://en.wikipedia.org/wiki/Ulam_spiral">Ulam Spiral</a></h1>
+      <p>
+        After reading <a href="https://beta.observablehq.com/@montyxcantsin/unwinding-the-ulam-spiral">Unwinding the Ulam Spiral</a> from <a href="https://github.com/montyxcantsin">@montyxcantsin</a>, I was fascinated by the prime-number based pattern.<br>
+        I decided we (as a society) need to watch this pattern being built live. Continue reading after the triangle for details on how this is build and what this has to do with prime numbers. Enjoy,<br>
+        -- <a href="https://github.com/tessi">tessi</a>
+      </p>
+    </div>
+    <div id="container"></div>
+    <div id="popup" style="display: none; top: 0; left: 0"></div>
+    <div class="description">
+      <p>
+        Each red or black box in the triangle above contains a set of numbers. If any number in a box is prime, the box is painted black. Click on a box to find out which numbers were checked and whether they are primes.
+      </p>
+      <p>
+        Given each box holds five numbers (it has a boxSize of 5), the very first box will get numbers 1 to 5.
+        In the second row, numbers 6 to 15 are distributed between two boxes in an alternating pattern. This continues as shown in the following listing:
+      </p>
+      <div>
+        <span class='exampleBox'>
+          <h2>Box 1 (Row 1)</h2>
+          <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+          </ul>
+        </span>
+      </div>
+      <div>
+        <span class='exampleBox'>
+          <h2>Box 2 (Row 2)</h2>
+          <ul>
+            <li>6</li>
+            <li>8</li>
+            <li>10</li>
+            <li>12</li>
+            <li>14</li>
+          </ul>
+        </span>
+        <span class='exampleBox'>
+          <h2>Box 3 (Row 2)</h2>
+          <ul>
+            <li>7</li>
+            <li>9</li>
+            <li>11</li>
+            <li>13</li>
+            <li>15</li>
+          </ul>
+        </span>
+      </div>
+      <div>
+        <span class='exampleBox'>
+          <h2>Box 3 (Row 3)</h2>
+          <ul>
+            <li>16</li>
+            <li>19</li>
+            <li>22</li>
+            <li>25</li>
+            <li>28</li>
+          </ul>
+        </span>
+        <span class='exampleBox'>
+          <h2>Box 4 (Row 3)</h2>
+          <ul>
+            <li>17</li>
+            <li>20</li>
+            <li>23</li>
+            <li>26</li>
+            <li>29</li>
+          </ul>
+        </span>
+        <span class='exampleBox'>
+          <h2>Box 5 (Row 3)</h2>
+          <ul>
+            <li>18</li>
+            <li>21</li>
+            <li>24</li>
+            <li>27</li>
+            <li>30</li>
+          </ul>
+        </span>
+      </div>
+      <p>
+        Each row will get an additional box between which numbers are distributed. Feel free to play with different box sizes by changing the boxSize parameter to this site. Here are some interesting sizes for you to play with:
+        <ul>
+          <li><a href="/?boxSize=1"><code>boxSize=1</code></a></li>
+          <li><a href="/?boxSize=2"><code>boxSize=2</code></a></li>
+          <li><a href="/?boxSize=5"><code>boxSize=5</code></a></li>
+          <li><a href="/?boxSize=42"><code>boxSize=42</code></a></li>
+          <li><a href="/?boxSize=100"><code>boxSize=100</code></a></li>
+        </ul>
+        We observe that for larger boxSizes, patterns start to emerge in the triangle. I wonder whether we can use them as knitting patterns :)
+      </p>
+      <p>
+        Note that prime numbers are calculated here with the <a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Miller-Rabin primality test</a>, which does not give a 100% answer on whether a number is prime or not (it rather gives a certain likelihood that a number is prime). Since I'm not pursuing a math degree with this website, I figured this is good enough and it's fast to calculate especially for large numbers.
+      </p>
+    </div>
+    <script type="text/javascript" src="ulan.js"></script>
+  </body>
+</html>
