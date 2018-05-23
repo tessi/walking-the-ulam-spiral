@@ -1,3 +1,21 @@
+/*
+ * Now that I see you inspecting the code, I feel watched ;)
+ * Please note that this code produced at night and has never
+ * seen a linter, tests or browser compatibility checks.
+ *
+ * The idea is from @montyxcantsin -- I just did this visualization
+ * as I found the work interesting.
+ *
+ * The Miller-Rabin implementation comes from rosettacode.
+ * Every function with mostly single letter variables is from there ;)
+ *
+ * As I'm not a CSS-person, it was fun to see how easy it was
+ * to align the triangle with flexbox.
+ *
+ * Feel free to open an issue with any hints or comments.
+ * -- tessi
+ */
+
 const numbersInCellParam = (new URL(location)).searchParams.get('boxSize');
 const numbersInCell = Math.max(parseInt(numbersInCellParam || '70'), 1);
 
