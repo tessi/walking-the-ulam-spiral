@@ -2,19 +2,23 @@
 <html>
   <head>
     <title>Walking the Ulan Spiral</title>
-    <link rel="stylesheet" type="text/css" href="ulan.css">
+    <link rel="stylesheet" type="text/css" href="ulam.css">
     <meta charset="utf-8"/>
   </head>
   <body>
     <div class="description">
       <h1>Walking the <a href="https://en.wikipedia.org/wiki/Ulam_spiral">Ulam Spiral</a></h1>
       <p>
-        After reading <a href="https://beta.observablehq.com/@montyxcantsin/unwinding-the-ulam-spiral">Unwinding the Ulam Spiral</a> from <a href="https://github.com/montyxcantsin">@montyxcantsin</a>, I was fascinated by the prime-number based pattern.<br>
-        I decided we (as a society) need to watch this pattern being built live. Continue reading after the triangle for details on how this is build and what this has to do with prime numbers. Enjoy,<br>
+        After reading <a href="https://beta.observablehq.com/@montyxcantsin/unwinding-the-ulam-spiral">Unwinding the Ulam Spiral</a> from <a href="https://github.com/montyxcantsin">@montyxcantsin</a>, I was fascinated by the prime-number based pattern it produces.<br>
+        This site may serve you as an explanation to how apparently randomly spaced prime numbers can produce a regular pattern. Continue reading after the triangle for details on how it is build and the role prime number play here. Enjoy,<br>
         -- <a href="https://github.com/tessi">tessi</a>
       </p>
     </div>
     <div id="container"></div>
+    <div id="controls">
+      <div class="btn" id="pauseButton">Pause computation</div>
+      <div class="btn" style="display: none;" id="playButton">Continue computation</div>
+    </div>
     <div id="popup" style="display: none; top: 0; left: 0"></div>
     <div class="description">
       <p>
@@ -24,7 +28,7 @@
         Given each box holds five numbers (it has a boxSize of 5), the very first box will get numbers 1 to 5.
         In the second row, numbers 6 to 15 are distributed between two boxes in an alternating pattern. This continues as shown in the following listing:
       </p>
-      <div>
+      <div class="row">
         <span class='exampleBox'>
           <h2>Box 1 (Row 1)</h2>
           <ul>
@@ -36,7 +40,7 @@
           </ul>
         </span>
       </div>
-      <div>
+      <div class="row">
         <span class='exampleBox'>
           <h2>Box 2 (Row 2)</h2>
           <ul>
@@ -58,7 +62,7 @@
           </ul>
         </span>
       </div>
-      <div>
+      <div class="row">
         <span class='exampleBox'>
           <h2>Box 3 (Row 3)</h2>
           <ul>
@@ -108,6 +112,6 @@
         If you want to know more don't forget to visit <a href="http://www.novaspivack.com/science/we-have-discovered-a-new-pattern-in-the-prime-numbers-parallax-compression">Novas Blog about this phenomenon</a>.
       </p>
     </div>
-    <script type="text/javascript" src="ulan.js"></script>
+    <script type="text/javascript" src="ulam.js"></script>
   </body>
 </html>

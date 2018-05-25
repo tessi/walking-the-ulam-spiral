@@ -16,8 +16,14 @@
  * -- tessi
  */
 
-const numbersInCellParam = (new URL(location)).searchParams.get('boxSize');
-const numbersInCell = Math.max(parseInt(numbersInCellParam || '70'), 1);
+const pauseAfterRows = 47;
+
+const boxSizeParam = (new URL(location)).searchParams.get('boxSize');
+const boxSize = Math.max(parseInt(boxSizeParam || '70'), 1);
+
+const boxesToProcess = [];
+var scheduledRows = 0;
+var continueComputation = undefined;
 
 var modProd = function(a,b,n) {
   if(b==0) return 0;
@@ -40,9 +46,11 @@ var modPow = function(a,b,n) {
 // http://rosettacode.org/wiki/Miller-Rabin_primality_test#JavaScript
 // nobody understands this code, but hey it's probably ported from perl :P
 var isPrime = function(n) {
+  if(n<2) return false;
   if(n==2||n==3||n==5) return true;
   if(n%2==0||n%3==0||n%5==0) return false;
   if(n<25) return true;
+
   for(var a=[2,3,5,7,11,13,17,19],b=n-1,d,t,i,x;b%2==0;b/=2);
   for(i=0;i<a.length;i++){
     x=modPow(a[i],b,n);
@@ -58,22 +66,25 @@ var isPrime = function(n) {
 function boxPrimarity(rowNumber, boxNumber, boxSize) {
   const boxCountOfPreviousRows = rowNumber * (rowNumber - 1) / 2;
   const highestCheckedNumber = boxCountOfPreviousRows * boxSize;
-  const result = { numbers: {} };
+  const result = { numbers: {}, primeCount: 0 };
 
   for (var i = 0; i < boxSize; i++) {
     const numberTocheck = highestCheckedNumber + 1 + (i * rowNumber) + boxNumber;
     const primality = isPrime(numberTocheck, 50);
     result.numbers[numberTocheck] = primality;
-    result['hasPrime'] = result['hasPrime'] || primality;
+    if (primality) {
+      result.primeCount += 1;
+    }
   }
 
+  result.hasPrime = result.primeCount > 0;
   return result;
 }
 
 function fillBox(box) {
   const boxNumber = parseInt(box.dataset.box);
   const rowNumber = parseInt(box.parentElement.dataset.row);
-  const result = boxPrimarity(rowNumber, boxNumber, numbersInCell);
+  const result = boxPrimarity(rowNumber, boxNumber, boxSize);
 
   box.dataset.result = JSON.stringify(result);
   if (result.hasPrime) {
@@ -81,6 +92,7 @@ function fillBox(box) {
   } else {
     box.classList.add('box--no-prime');
   }
+  box.style.color = '#123456'
 }
 
 function addRow() {
@@ -108,17 +120,28 @@ function addRow() {
   return newBoxes;
 }
 
-const boxesToProcess = [];
-
 function processNextRow() {
   if (boxesToProcess.length === 0) {
+    scheduledRows += 1;
     boxesToProcess.push(...addRow());
   }
-
+  if (shouldStopComputation()) { return showContinueButton(); }
   const nextBox = boxesToProcess.shift();
   fillBox(nextBox);
 
   window.requestAnimationFrame(processNextRow);
+}
+
+function shouldStopComputation() {
+  // continueComputation is undefined when the user never
+  // clicked a control-button
+  return (
+    continueComputation === undefined &&
+      (scheduledRows > pauseAfterRows)
+  ) || (
+    continueComputation !== undefined &&
+      !continueComputation
+  )
 }
 
 function hidePopup() {
@@ -151,4 +174,30 @@ function showPopupForBox(box) {
   popup.style.left = `${left + 10}px`;
 }
 
+const playButton =  document.getElementById('playButton');
+const pauseButton = document.getElementById('pauseButton');
+
+function showContinueButton() {
+  playButton.style.display = 'block';
+  pauseButton.style.display = 'none';
+}
+
+function showPauseButton() {
+  playButton.style.display = 'none';
+  pauseButton.style.display = 'block';
+}
+
+function initializeControls() {
+  playButton.addEventListener('click', function() {
+    showPauseButton();
+    continueComputation = true;
+    window.requestAnimationFrame(processNextRow);
+  });
+  pauseButton.addEventListener('click', function() {
+    showContinueButton();
+    continueComputation = false;
+  });
+}
+
+initializeControls();
 processNextRow();
