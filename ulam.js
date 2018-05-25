@@ -19,9 +19,15 @@
 const pauseAfterRows = 47;
 
 const boxSizeParam = (new URL(location)).searchParams.get('boxSize');
-const boxSize = Math.max(parseInt(boxSizeParam || '70'), 1);
+const incrementBoxSize = !!(new URL(location)).searchParams.get('incrementBoxSize');
 
 const boxesToProcess = [];
+var boxSize = Math.max(parseInt(boxSizeParam || '70'), 1);
+
+// we incrementBoxSize before adding the first row, this way
+// the user can control the first rows boxSize with the boxSize param
+if (incrementBoxSize) { boxSize -= 1; }
+
 var scheduledRows = 0;
 var continueComputation = undefined;
 
@@ -66,7 +72,10 @@ var isPrime = function(n) {
 function boxPrimarity(rowNumber, boxNumber, boxSize) {
   const boxCountOfPreviousRows = rowNumber * (rowNumber - 1) / 2;
   const highestCheckedNumber = boxCountOfPreviousRows * boxSize;
-  const result = { numbers: {}, primeCount: 0 };
+  const result = {
+    numbers: {},
+    primeCount: 0
+  };
 
   for (var i = 0; i < boxSize; i++) {
     const numberTocheck = highestCheckedNumber + 1 + (i * rowNumber) + boxNumber;
@@ -121,15 +130,18 @@ function addRow() {
 }
 
 function processNextRow() {
-  if (boxesToProcess.length === 0) {
-    scheduledRows += 1;
-    boxesToProcess.push(...addRow());
-  }
+  if (boxesToProcess.length === 0) { prepareNextRowForProcessing(); }
   if (shouldStopComputation()) { return showContinueButton(); }
   const nextBox = boxesToProcess.shift();
   fillBox(nextBox);
 
   window.requestAnimationFrame(processNextRow);
+}
+
+function prepareNextRowForProcessing() {
+  scheduledRows += 1;
+  boxesToProcess.push(...addRow());
+  if (incrementBoxSize) { boxSize += 1; }
 }
 
 function shouldStopComputation() {
