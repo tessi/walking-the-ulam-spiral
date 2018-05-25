@@ -16,10 +16,12 @@
  * -- tessi
  */
 
-const pauseAfterRows = 47;
+const pauseAfterRowsParam = (new URL(location)).searchParams.get('pauseAfterRows');
+const pauseAfterRows = Math.max(parseInt(pauseAfterRowsParam || '47'), 1);
 
 const boxSizeParam = (new URL(location)).searchParams.get('boxSize');
-const incrementBoxSize = !!(new URL(location)).searchParams.get('incrementBoxSize');
+const incrementBoxSizeParam = (new URL(location)).searchParams.get('incrementBoxSize');
+const incrementBoxSize = Math.max(parseInt(incrementBoxSizeParam || '0'), 0);
 
 const boxesToProcess = [];
 var boxSize = Math.max(parseInt(boxSizeParam || '70'), 1);
@@ -141,7 +143,7 @@ function processNextRow() {
 function prepareNextRowForProcessing() {
   scheduledRows += 1;
   boxesToProcess.push(...addRow());
-  if (incrementBoxSize) { boxSize += 1; }
+  if (incrementBoxSize) { boxSize += incrementBoxSize; }
 }
 
 function shouldStopComputation() {
@@ -186,8 +188,29 @@ function showPopupForBox(box) {
   popup.style.left = `${left + 10}px`;
 }
 
-const playButton =  document.getElementById('playButton');
+function saveAsSvg() {
+  html2canvas(document.getElementById('container')).then(function(canvas) {
+    const url = `data:${canvas.toDataURL('image/png')}`;
+    const link = document.createElement('a');
+    link.download = 'daena.png';
+    link.href = url;
+    link.style = 'display: none';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // On Edge, revokeObjectURL should be called only after
+    // a.click() has completed, atleast on EdgeHTML 15.15048
+    setTimeout(function() {
+        window.URL.revokeObjectURL(url);
+    }, 1000);
+  });
+}
+
+const playButton  = document.getElementById('playButton');
 const pauseButton = document.getElementById('pauseButton');
+const saveButton  = document.getElementById('saveButton');
 
 function showContinueButton() {
   playButton.style.display = 'block';
@@ -209,6 +232,7 @@ function initializeControls() {
     showContinueButton();
     continueComputation = false;
   });
+  saveButton.addEventListener('click', saveAsSvg);
 }
 
 initializeControls();
