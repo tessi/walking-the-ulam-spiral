@@ -107,6 +107,13 @@
         We observe that for larger boxSizes, patterns start to emerge in the triangle. I wonder whether we can use them as knitting patterns :)
       </p>
       <p>
+        If you want to keep playing, this site supports some additional settings which you can change by adding URL params:<br>
+        <ul>
+          <li><a href="/walking-the-ulam-spiral/?boxSize=1&pauseAfterRows=97">pauseAfterRows</a>: Rendering automatically stops after that many rows were rendered.</li>
+          <li><a href="/walking-the-ulam-spiral/?boxSize=1&incrementBoxSize=1">incrementBoxSize</a>: The boxSize of each row is incremented by this numer.</li>
+        </ul>
+      </p>
+      <p>
         Note that prime numbers are calculated here with the <a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Miller-Rabin primality test</a>, which does not give a 100% answer on whether a number is prime or not (it rather gives a certain likelihood that a number is prime). Since I'm not pursuing a math degree with this website, I figured this is good enough and it's fast to calculate especially for large numbers.
       </p>
       <p>
