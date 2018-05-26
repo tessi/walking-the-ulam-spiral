@@ -10,7 +10,8 @@ div {
 
 #container {
   overflow-x: scroll;
-  margin: 2em 0;
+  margin: 2em 1em;
+  display: inline-block;
 }
 
 .row {
